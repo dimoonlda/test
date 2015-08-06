@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+<!--
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/opt/esb/logs/esb.%d{yyyy-MM-dd}.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd;HH:mm:ss.SSS} [%thread] %-5level  %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+-->
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/opt/tes-web-mvc/logs/ds.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>/opt/tes-web-mvc/logs/ds.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>100</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd;HH:mm:ss.SSS} [%thread] %-5level  %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd;HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="ua.kiev.test" level="DEBUG" >
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="fileAppender" />
+    </logger>
+
+    <!--<logger name="org.apache.cxf" level="INFO"/>-->
+    <!--<logger name="org.springframework" level="INFO"/>-->
+    <logger name="org.springframework" level="INFO" >
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="fileAppender" />
+    </logger>
+<!--
+    <logger name="org.hibernate.hql" level="DEBUG">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="fileAppender" />
+    </logger>
+    <logger name="org.springframework.data" level="DEBUG">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="fileAppender" />
+    </logger>
+-->
+
+    <root level="ERROR">
+        <!--<appender-ref ref="STDOUT" />-->
+        <!--<appender-ref ref="fileAppender" />-->
+    </root>
+
+</configuration>

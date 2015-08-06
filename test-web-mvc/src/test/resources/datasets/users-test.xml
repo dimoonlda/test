@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <ds_user id="1" login="user1" pwd="123" uRole="ADMIN" enabled="true" expirationDate="2015-10-21 11:13:28"/>
+    <ds_user id="2" login="user2" pwd="123" uRole="TEST" enabled="true" />
+    <ds_user id="3" login="user3" pwd="123" uRole="TEST" enabled="true" />
+</dataset>
