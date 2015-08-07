@@ -18,10 +18,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.kiev.test.testwebmvc.config.TestContext;
+import ua.kiev.test.testwebmvc.config.TestContextIT;
+import ua.kiev.test.testwebmvc.config.WebMvcConfig;
 import ua.kiev.test.testwebmvc.model.User;
 import ua.kiev.test.testwebmvc.service.UserService;
 
@@ -41,9 +44,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {TestContext.class})
+@ContextConfiguration(classes = {TestContextIT.class, WebMvcConfig.class})
 @DatabaseSetup(UserControllerIT.DATASET)
 @DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = { UserControllerIT.DATASET })
+@WebAppConfiguration
 @DirtiesContext
 public class UserControllerIT {
 
@@ -64,7 +68,17 @@ public class UserControllerIT {
         mockMvc.perform(get("/user/{name}", "user1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(100))
+                .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.login").value("user1"));
     }
+
+    @Test
+    @ExpectedDatabase(UserControllerIT.DATASET)
+    public void testGetUserInfo_ObjectNotFoundException() throws Exception {
+        mockMvc.perform(get("/user/{name}", "user4"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("User with login = user4 not found."));
+    }
+
 }

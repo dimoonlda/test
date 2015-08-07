@@ -13,17 +13,12 @@ import ua.kiev.test.testwebmvc.utils.TokenUtils;
 import ua.kiev.test.testwebmvc.utils.TokenUtilsImpl;
 
 /**
- * Created by lutay.d on 05.08.2015.
+ * Created by lutay.d on 07.08.2015.
  */
 @Configuration
 @ComponentScan({"ua.kiev.test.testwebmvc.service"})
 @Import({TestJpaConfig.class})
-public class TestContext {
-
-    @Bean
-    public UserService todoService() {
-        return Mockito.mock(UserService.class);
-    }
+public class TestContextIT {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
